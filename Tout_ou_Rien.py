@@ -3,7 +3,8 @@ import random
 import time
 import pyodbc
 
-# Function to generate a random combination
+# Function to 
+# generate a random combination
 def generate_combination(task_id, results):
     pick12 = []
     while len(pick12) < 12:
@@ -16,6 +17,10 @@ def generate_combination(task_id, results):
 def check_combination(pick12, P):
     count = sum(1 for i in range(len(pick12)) if pick12[i] != P[i])
     return count >= 8 or count <= 4
+
+# Function to check if 12 numbers are the same
+def check_all_same(pick12, P):
+    return all(pick12[i] == P[i] for i in range(12))
 
 # Main function to handle the multithreading and processing
 def tout_ou_rien_special():
@@ -48,7 +53,7 @@ def tout_ou_rien_special():
 
     # Process results
     pick12 = results[0]  # Use the first result (or choose another logic)
-    while not check_combination(pick12, P):
+    while check_combination(pick12, P) or check_all_same(pick12, P):
         threads = []
         for i in range(12):
             thread = threading.Thread(target=generate_combination, args=(i, results))
@@ -74,7 +79,7 @@ def tout_ou_rien_special():
 
     # Call the text-to-speech Python script
     import subprocess
-    subprocess.run(["python3", "C:/Users/rchrd/Documents/Python/text2speech.py", "--lang=fr", "Voici les numéros gagnants de Tout ou rien"])
+    subprocess.run(["python", "C:/Users/rchrd/Documents/Python/text2speech.py", "--lang=fr", "Voici les numéros gagnants de Tout ou rien"])
 
     # Display results
     result_str = " ".join(map(str, pick12))
