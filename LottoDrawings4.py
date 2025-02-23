@@ -82,6 +82,30 @@ def PrintStatus():
     sys.stdout.write("\\\r"); sys.stdout.flush()
     sys.stdout.write("|\r"); sys.stdout.flush()
     sys.stdout.write("/\r"); sys.stdout.flush()
+    
+def PrintPickingNumbers():
+    sys.stdout.write(" Picking.\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking..\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking...\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking....\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking.....\r"); sys.stdout.flush()  
+    sys.stdout.write(" Picking.\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking..\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking...\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking....\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking.....\r"); sys.stdout.flush() 
+    sys.stdout.write(" Picking.\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking..\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking...\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking....\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking.....\r"); sys.stdout.flush() 
+    sys.stdout.write(" Picking.\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking..\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking...\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking....\r"); sys.stdout.flush()
+    sys.stdout.write(" Picking.....\r"); sys.stdout.flush()   
+    sys.stdout.write("              \r"); sys.stdout.flush() 
+
 
 def PickLottoNumbers(samenumber, total, numbers, lotto):
     seen = set(numbers)
@@ -116,7 +140,7 @@ def PickNum(data, numbers, lotto):
         
         hit = len(numbers_set & drawn_numbers)
         
-        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12 or hit == 0)):
+        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12)):
             PickNumbers = True
             hits += 1
         else:
@@ -128,6 +152,7 @@ def lotto_drawings(rangenum, drawingnum, same, drawnumbers):
         numbers = []
         numbers = PickLottoNumbers(same, drawingnum, numbers, lotto)
         PickNumbers, hits = PickNum(data, numbers, lotto)
+        PrintPickingNumbers()
         if hits==0:
             break
     return numbers
