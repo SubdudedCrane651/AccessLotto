@@ -100,7 +100,7 @@ def PickNum(data, numbers, lotto):
     numbers_set = set(numbers)
     
     for pan in data:
-        PrintStatus()
+        #PrintStatus()
 
         # Common set operations for various lotto types
         drawn_numbers = {
@@ -112,7 +112,7 @@ def PickNum(data, numbers, lotto):
         
         hit = len(numbers_set & drawn_numbers)
         
-        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12 or hit >= 8 or hit <= 4)):
+        if (lotto == 1 and hit >= 6) or (lotto == 2 and hit >= 6) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12 or hit >= 8 or hit <= 4)):
             PickNumbers = True
             hits += 1
         else:
@@ -124,7 +124,7 @@ def lotto_drawings(rangenum, drawingnum, same, drawnumbers):
         numbers = []
         numbers = PickLottoNumbers(same, drawingnum, numbers)
         PickNumbers, hits = PickNum(data, numbers, lotto)
-        if PickNumbers:
+        if not PickNumbers:
             break
     return numbers
 
@@ -133,25 +133,25 @@ with ThreadPoolExecutor(max_workers=4) as executor:
     if lotto == 1:
         print(loto649)
         lottonumbers = executor.submit(lotto_drawings, 7, 49, 6, drawnumbers).result()
-        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numéros gagnants de Lotto 6/49"')
         print(f"The winning 6/49 numbers are {lottonumbers} in a total of {count} drawings")
+        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Lotto 6/49"')
 
     if lotto == 2:
         print(LottoMax)
         lottonumbers = executor.submit(lotto_drawings, 8, 50, 7, drawnumbers).result()
-        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numéros gagnants de Lotto Max"')
         print(f"The LottoMax winning numbers are {lottonumbers} in a total of {count} drawings")
+        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Lotto Max"')
 
     if lotto == 3:
         print(GrandeVie)
         lottonumbers = executor.submit(lotto_drawings, 6, 49, 5, drawnumbers).result()
-        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numéros gagnants de la Grande Vie"')
         print(f"The winning Grande Vie numbers are {lottonumbers} in a total of {count} drawings")
+        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numeros gagnants de la Grande Vie"')
 
     if lotto == 4:
         print(ToutouRien)
-        lottonumbers = executor.submit(lotto_drawings, 13, 24, 12, drawnumbers).result()
-        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numéros gagnants de Tout ou rien"')
+        lottonumbers = executo1r.submit(lotto_drawings, 13, 24, 12, drawnumbers).result()
         print(f"The winning Tout ou Rien numbers are {lottonumbers} in a total of {count} drawings")
+        os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Tout ou rien"')
 
 input("<PRESS ENTER>")
