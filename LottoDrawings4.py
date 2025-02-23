@@ -112,7 +112,7 @@ def PickNum(data, numbers, lotto):
         
         hit = len(numbers_set & drawn_numbers)
         
-        if (lotto == 1 and hit >= 6) or (lotto == 2 and hit >= 6) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12 or hit >= 8 or hit <= 4)):
+        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12 or hit >= 8 or hit <= 4)):
             PickNumbers = True
             hits += 1
         else:
@@ -150,7 +150,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 
     if lotto == 4:
         print(ToutouRien)
-        lottonumbers = executo1r.submit(lotto_drawings, 13, 24, 12, drawnumbers).result()
+        lottonumbers = executor.submit(lotto_drawings, 13, 24, 12, drawnumbers).result()
         print(f"The winning Tout ou Rien numbers are {lottonumbers} in a total of {count} drawings")
         os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe C:\\Users\\rchrd\\Documents\\Python\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Tout ou rien"')
 
