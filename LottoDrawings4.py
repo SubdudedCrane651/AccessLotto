@@ -83,7 +83,7 @@ def PrintStatus():
     sys.stdout.write("|\r"); sys.stdout.flush()
     sys.stdout.write("/\r"); sys.stdout.flush()
 
-def PickLottoNumbers(samenumber, total, numbers):
+def PickLottoNumbers(samenumber, total, numbers, lotto):
     seen = set(numbers)
     while samenumber:
         rnd = random.randint(1, total)
@@ -91,7 +91,11 @@ def PickLottoNumbers(samenumber, total, numbers):
             seen.add(rnd)
             numbers.append(rnd)
             samenumber -= 1
-    numbers.sort()
+            
+        numbers.sort()            
+    if lotto == 3:
+        rnd = random.randint(1, 6)
+        numbers.append(rnd)    
     return numbers
 
 def PickNum(data, numbers, lotto):
@@ -100,7 +104,7 @@ def PickNum(data, numbers, lotto):
     numbers_set = set(numbers)
     
     for pan in data:
-        #PrintStatus()
+        PrintStatus()
 
         # Common set operations for various lotto types
         drawn_numbers = {
@@ -122,7 +126,7 @@ def PickNum(data, numbers, lotto):
 def lotto_drawings(rangenum, drawingnum, same, drawnumbers):
     while True:
         numbers = []
-        numbers = PickLottoNumbers(same, drawingnum, numbers)
+        numbers = PickLottoNumbers(same, drawingnum, numbers, lotto)
         PickNumbers, hits = PickNum(data, numbers, lotto)
         if hits==0:
             break
