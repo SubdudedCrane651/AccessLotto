@@ -124,7 +124,7 @@ def lotto_drawings(rangenum, drawingnum, same, drawnumbers):
         numbers = []
         numbers = PickLottoNumbers(same, drawingnum, numbers)
         PickNumbers, hits = PickNum(data, numbers, lotto)
-        if not PickNumbers:
+        if hits==0:
             break
     return numbers
 
