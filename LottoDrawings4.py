@@ -140,7 +140,7 @@ def PickNum(data, numbers, lotto):
         
         hit = len(numbers_set & drawn_numbers)
         
-        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and (hit == 12)):
+        if (lotto == 1 and hit >= 4) or (lotto == 2 and hit >= 4) or (lotto == 3 and (hit == 5 or hit == 6)) or (lotto == 4 and hit >10):
             PickNumbers = True
             hits += 1
         else:
