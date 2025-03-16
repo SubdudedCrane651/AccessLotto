@@ -11,7 +11,7 @@ Sub PickLottoNumbers()
     Dim lottoType As Integer
     Dim retries As Integer
     Dim matchCount As Integer
-
+    
     ' Get lotto type from user
     lottoType = InputBox("Enter Lotto Type: (1=Lotto 6/49, 2=LottoMax, 3=Grande Vie, 4=Tout Ou Rien)")
     Select Case lottoType
@@ -31,14 +31,14 @@ Sub PickLottoNumbers()
             MsgBox "Invalid input. Please enter a number between 1 and 4."
             Exit Sub
     End Select
-
+    
     ' Fetch JSON data from URL
     Set data = GetJSONData(url)
-
-Retry:
+    
+    Retry :
     retries = retries + 1
     Debug.Print "Retry #" & retries
-
+    
     ' Generate lotto numbers based on lotto type
     Dim maxNumbers As Integer, maxValue As Integer, generateGrandNumber As Boolean
     Select Case lottoType
@@ -59,17 +59,17 @@ Retry:
             maxValue = 24
             generateGrandNumber = False
     End Select
-
+    
     ' Generate lotto numbers
     Set numbers = GenerateLottoNumbers(maxNumbers, maxValue, generateGrandNumber)
-
+    
     ' Compare the numbers with existing data
     matchCount = CountMatches(numbers, data, lottoType)
     If matchCount >= 8 Then
         Debug.Print "High number of matches found! Restarting process..."
-        GoTo Retry
+        Goto Retry
     End If
-
+    
     ' Output the unique numbers
     Dim output As String
     Dim num As Variant
@@ -77,7 +77,7 @@ Retry:
     For Each num In numbers
         output = output & num & " "
     Next num
-
+    
     ' Trim extra space and display the formatted output
     MsgBox "Unique Lotto Numbers: " & Trim(output)
 End Sub
@@ -87,7 +87,7 @@ Function GenerateLottoNumbers(totalNumbers As Integer, maxValue As Integer, incl
     Dim numbers As New Collection
     Dim rndNumber As Integer
     Dim i As Integer
-
+    
     ' Generate unique numbers for the main draw
     For i = 1 To totalNumbers
         Do
@@ -95,7 +95,7 @@ Function GenerateLottoNumbers(totalNumbers As Integer, maxValue As Integer, incl
         Loop Until Not IsInCollection(numbers, rndNumber)
         numbers.Add rndNumber
     Next i
-
+    
     ' Add Grand Number if required
     If includeGrandNumber Then
         Do
@@ -103,26 +103,26 @@ Function GenerateLottoNumbers(totalNumbers As Integer, maxValue As Integer, incl
         Loop Until Not IsInCollection(numbers, rndNumber)
         numbers.Add rndNumber ' Add Grand Number as the last number
     End If
-
+    
     ' Sort the main numbers (but keep the Grand Number last)
     Dim sortedNumbers As Collection
     Dim tempNumbers As New Collection
     Dim lastNumber As Integer
-
+    
     ' Remove the last number (Grand Number) temporarily if applicable
     If includeGrandNumber Then
         lastNumber = numbers(numbers.count)
         numbers.Remove numbers.count
     End If
-
+    
     ' Sort the main numbers
     Set sortedNumbers = SortNumbers(numbers)
-
+    
     ' Restore the Grand Number as the last element
     If includeGrandNumber Then
         sortedNumbers.Add lastNumber
     End If
-
+    
     ' Return the sorted numbers
     Set GenerateLottoNumbers = sortedNumbers
 End Function
@@ -146,12 +146,12 @@ Function SortNumbers(numbers As Collection) As Collection
     Dim temp As Integer
     Dim tempArray() As Integer
     ReDim tempArray(1 To numbers.count)
-
+    
     ' Transfer collection to array
     For i = 1 To numbers.count
         tempArray(i) = numbers(i)
     Next i
-
+    
     ' Perform bubble sort
     For i = LBound(tempArray) To UBound(tempArray) - 1
         For j = i + 1 To UBound(tempArray)
@@ -162,13 +162,13 @@ Function SortNumbers(numbers As Collection) As Collection
             End If
         Next j
     Next i
-
+    
     ' Transfer back to a collection
     Dim sortedNumbers As New Collection
     For i = LBound(tempArray) To UBound(tempArray)
         sortedNumbers.Add tempArray(i)
     Next i
-
+    
     ' Return the sorted collection
     Set SortNumbers = sortedNumbers
 End Function
@@ -177,11 +177,11 @@ End Function
 Function CountMatches(numbers As Collection, data As Collection, lottoType As Integer) As Integer
     Dim matchCount As Integer
     matchCount = 0
-
+    
     Dim pan As Object
     Dim drawnNumbers As Collection
     Dim i As Integer
-
+    
     ' Loop through the data to compare
     For Each pan In data
         ' Extract lotto numbers based on the type of lotto
@@ -205,7 +205,7 @@ Function CountMatches(numbers As Collection, data As Collection, lottoType As In
                     drawnNumbers.Add pan("p" & i)
                 Next i
         End Select
-
+        
         ' Compare the collections
         Dim num As Variant
         Dim drawNum As Variant
@@ -216,14 +216,14 @@ Function CountMatches(numbers As Collection, data As Collection, lottoType As In
                 End If
             Next drawNum
         Next num
-
+        
         ' Check for duplicate or high match count
         If matchCount >= 8 Then
             CountMatches = matchCount
             Exit Function
         End If
     Next pan
-
+    
     CountMatches = 0
 End Function
 
@@ -232,21 +232,21 @@ Function GetJSONData(url As String) As Collection
     Dim http As Object
     Dim JSON As Object
     Dim results As New Collection
-
+    
     ' Create the HTTP object for request
     Set http = CreateObject("MSXML2.XMLHTTP")
     http.Open "GET", url, False
     http.Send
-
+    
     ' Parse JSON response using JsonConverter
     Set JSON = JsonConverter.ParseJson(http.responseText)
-
+    
     ' Loop through JSON and add records to the collection
     Dim item As Object
     For Each item In JSON
         results.Add item
     Next item
-
+    
     ' Return the parsed JSON data
     Set GetJSONData = results
 End Function
