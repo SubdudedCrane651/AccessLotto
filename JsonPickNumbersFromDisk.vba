@@ -35,7 +35,7 @@ Sub PickLottoNumbers()
     ' Load JSON data from file
     Set data = GetJSONFromFile(filePath)
     
-    Retry :
+Retry:
     retries = retries + 1
     Debug.Print "Retry #" & retries
     
@@ -67,17 +67,27 @@ Sub PickLottoNumbers()
     matchCount = CountMatches(numbers, data, lottoType)
     If matchCount >= 8 Then
         Debug.Print "High number of matches found! Restarting process..."
-        Goto Retry
+        GoTo Retry
     End If
-    
-    ' Output the unique numbers
+
+    ' Output the unique numbers along with the total number of drawings
     Dim output As String
     Dim num As Variant
-    output = ""
+    Dim totalDrawings As Integer
+
+    ' Count total drawings
+    totalDrawings = data.count
+
+    ' Prepare the output with unique numbers
+    output = "Unique Lotto Numbers: "
     For Each num In numbers
         output = output & num & " "
     Next num
-    MsgBox "Unique Lotto Numbers: " & Trim(output)
+    output = Trim(output) & vbNewLine & "Total Number of Drawings: " & totalDrawings
+
+    ' Display the result
+    MsgBox output
+
 End Sub
 
 ' Reads JSON data from a file and parses it
@@ -86,7 +96,7 @@ Function GetJSONFromFile(filePath As String) As Collection
     Dim JSON As Object
     Dim results As New Collection
     
-     On Error Goto ErrorHandler
+     On Error GoTo ErrorHandler
     
     ' Ensure the file exists before attempting to read
     If Dir(filePath) = "" Then
@@ -130,12 +140,10 @@ Function GetJSONFromFile(filePath As String) As Collection
         Set GetJSONFromFile = results
         Exit Function
         
-        ErrorHandler :
+ErrorHandler:
         MsgBox "An error occurred while reading the JSON file: " & Err.Description, vbCritical
         Close #fileNum
-        End Function
-    
-    
+End Function
     
     ' Generates a unique random combination of numbers with optional Grand Number
     Function GenerateLottoNumbers(totalNumbers As Integer, maxValue As Integer, includeGrandNumber As Boolean) As Collection
