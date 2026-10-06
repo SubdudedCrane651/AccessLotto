@@ -168,7 +168,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 
     if lotto == 2:
         print(LottoMax)
-        lottonumbers = executor.submit(lotto_drawings, 8, 50, 7, drawnumbers).result()
+        lottonumbers = executor.submit(lotto_drawings, 8, 52, 7, drawnumbers).result()
         print(f"The LottoMax winning numbers are {lottonumbers} in a total of {count} drawings")
         #os.system('C:\\Users\\rchrd\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe F:\\Python\\text2speech\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Lotto Max"')
         os.system('F:/Python/Blood_Pressure_Tracker/BOSGAME/.venv/Scripts/python.exe F:\\Python\\text2speech\\text2speech.py "--lang=fr" "Voici les numeros gagnants de Lotto Max"')
